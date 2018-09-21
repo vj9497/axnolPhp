@@ -17,15 +17,20 @@ class BankAccount implements IfaceBankAccount
 
     public function deposit(Money $amount)
     {
-        //implement this method
+        $this->balance = new Money((int)(string)$this->balance + $amount->value());
     }
 
     public function transfer(Money $amount, BankAccount $account)
     {
-        //implement this method
+        $this->withdraw($amount);
+        $account->deposit($amount);
     }
 
     public function withdraw(Money $amount){
-        
+        if((int)(string)$this->balance>$amount->value()){
+            $this->balance = new Money((int)(string)$this->balance - $amount->value());
+        }else{
+            throw new Exception("Withdrawl amount larger than balance");
+        }
     }
 }
